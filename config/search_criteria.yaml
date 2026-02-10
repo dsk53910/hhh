@@ -1,0 +1,188 @@
+# Job Search Criteria Configuration
+# This file defines different search profiles for job monitoring
+
+# Default search criteria
+default:
+  keywords:
+    - "Python"
+    - "Django"
+    - "FastAPI"
+    - "PostgreSQL"
+  exclude_keywords:
+    - "1С"
+    - "PHP"
+    - "Java"
+    - "C#"
+  experience: "between3And6"  # noExperience, between1And3, between3And6, moreThan6
+  salary:
+    from: 150000
+    to: 400000
+    currency: "RUR"
+  schedule:
+    - "remote"
+    - "flexible"
+  employment:
+    - "full"
+    - "part"
+  area:
+    - 1   # Moscow
+    - 2   # St. Petersburg
+    - 2018 # Sochi (remote work friendly)
+  text_search: "Python разработчик"
+  order_by: "publication_time"  # publication_time, salary_desc, salary_asc, relevance
+  per_page: 100
+
+# Search profiles for different roles
+profiles:
+  backend_developer:
+    keywords:
+      - "Python"
+      - "Django"
+      - "FastAPI"
+      - "Flask"
+      - "PostgreSQL"
+      - "Redis"
+      - "Docker"
+    exclude_keywords:
+      - "1С"
+      - "PHP"
+      - "Junior"
+      - "Стажер"
+    experience: "between3And6"
+    salary:
+      from: 180000
+      to: 350000
+      currency: "RUR"
+    schedule: ["remote", "flexible"]
+    employment: ["full"]
+    text_search: "Backend Python разработчик"
+    
+  devops_engineer:
+    keywords:
+      - "DevOps"
+      - "Docker"
+      - "Kubernetes"
+      - "CI/CD"
+      - "Jenkins"
+      - "GitLab"
+      - "Ansible"
+      - "Terraform"
+    exclude_keywords:
+      - "Windows"
+      - "1С"
+    experience: "between3And6"
+    salary:
+      from: 200000
+      to: 400000
+      currency: "RUR"
+    schedule: ["remote", "flexible"]
+    employment: ["full"]
+    text_search: "DevOps инженер"
+
+  data_scientist:
+    keywords:
+      - "Data Scientist"
+      - "Machine Learning"
+      - "ML"
+      - "Pandas"
+      - "NumPy"
+      - "Scikit-learn"
+      - "TensorFlow"
+      - "PyTorch"
+    exclude_keywords:
+      - "1С"
+      - "PHP"
+    experience: "between3And6"
+    salary:
+      from: 200000
+      to: 450000
+      currency: "RUR"
+    schedule: ["remote", "flexible"]
+    employment: ["full"]
+    text_search: "Data Scientist Python"
+
+  fullstack_developer:
+    keywords:
+      - "Python"
+      - "JavaScript"
+      - "React"
+      - "Django"
+      - "FastAPI"
+      - "PostgreSQL"
+      - "Docker"
+    exclude_keywords:
+      - "1С"
+      - "PHP"
+      - "Junior"
+    experience: "between3And6"
+    salary:
+      from: 170000
+      to: 320000
+      currency: "RUR"
+    schedule: ["remote", "flexible", "hybrid"]
+    employment: ["full", "part"]
+    text_search: "Full Stack Python разработчик"
+
+# Priority companies (higher priority for notifications)
+priority_companies:
+  - "Яндекс"
+  - "VK"
+  - "Сбер"
+  - "Тинькофф"
+  - "Ozon"
+  - "Wildberries"
+  - "МТС"
+  - "Росатом"
+  - "Газпром нефть"
+  - "Лукойл"
+
+# Blacklisted companies (skip these)
+blacklist_companies:
+  - "ООО Априори"
+  - "IT-Pro Студия"
+  - "Skillbox"
+  - "GeekBrains"
+  - "Яндекс Практикум"
+
+# Company size preferences
+company_size_preferences:
+  preferred: ["large", "medium"]  # small, medium, large
+  exclude_small: true  # Exclude companies with < 50 employees
+
+# Industry preferences
+industry_preferences:
+  include:
+    - "IT"
+    - "Телекоммуникации"
+    - "Финансы"
+    - "E-commerce"
+    - "Образование"
+  exclude:
+    - "Продажи"
+    - "Маркетинг"
+    - "HR"
+
+# Response matching criteria
+response_matching:
+  min_keywords_match: 2  # Minimum keywords that must match
+  max_excluded_keywords: 0  # Maximum excluded keywords allowed
+  require_salary: false  # Whether salary must be specified
+  require_remote: true  # Whether remote work is required
+
+# Search scheduling
+scheduling:
+  search_interval: 300  # seconds between searches
+  peak_hours:
+    start: "09:00"
+    end: "18:00"
+  peak_interval: 180  # More frequent during peak hours
+  weekend_interval: 600  # Less frequent on weekends
+  timezone: "Europe/Moscow"
+
+# Notification preferences
+notification_preferences:
+  instant_alert: true
+  digest_enabled: true
+  digest_times: ["09:00", "13:00", "18:00"]
+  max_jobs_per_digest: 20
+  priority_alerts_only: false  # Only alert for high priority jobs

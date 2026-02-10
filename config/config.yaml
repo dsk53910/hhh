@@ -1,0 +1,57 @@
+# HHH Bot Configuration
+# This file contains all application settings
+
+# Application settings
+environment: development
+debug: true
+secret_key: "your-secret-key-change-in-production"
+
+# Telegram Bot Configuration
+bot:
+  token: "${BOT_TOKEN}"
+  admin_id: ${ADMIN_ID}
+  webhook_url: null
+  drop_pending_updates: true
+
+# Database Configuration
+database:
+  url: "${DATABASE_URL}"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+
+# HH.ru API Configuration
+hh:
+  api_key: "${HH_API_KEY}"  # Optional: if you have API access
+  search_interval: 300      # Search every 5 minutes
+  max_requests_per_hour: 100
+  default_filters:
+    text: "Python developer"
+    area: 1  # Moscow
+    schedule: "remote"
+  user_agent: "HHH-Bot/1.0 (+https://github.com/example/hhh-bot)"
+
+# Auto-Apply Configuration
+auto_apply:
+  enabled: false
+  require_approval: true
+  max_applications_per_day: 5
+  auto_responses: false
+  approval_timeout: 3600  # 1 hour
+
+# Notification Configuration
+notifications:
+  enabled: true
+  digest_time: "09:00"
+  new_job_alert: true
+  application_update: true
+  error_alerts: true
+  daily_summary: false
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: null  # Set to file path for file logging
+  json_format: false
+  max_file_size: "10MB"
+  backup_count: 5

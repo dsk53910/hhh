@@ -1,0 +1,216 @@
+# Response Templates Configuration
+# This file contains templates for automated responses to job postings
+
+# Global response settings
+settings:
+  language: "ru"
+  default_tone: "professional"
+  include_contact_info: true
+  include_salary_expectations: true
+  include_availability: true
+
+# Personal information
+personal_info:
+  name: "Ваше Имя"
+  position: "Python разработчик"
+  email: "your.email@example.com"
+  phone: "+7 (999) 123-45-67"
+  github: "https://github.com/yourusername"
+  linkedin: "https://linkedin.com/in/yourusername"
+  portfolio: "https://yourportfolio.com"
+
+# Experience levels
+experience_levels:
+  junior:
+    years_experience: "1-2 года"
+    key_phrases:
+      - "быстрое обучение"
+      - "энергичный и мотивированный"
+      - "готов к развитию"
+  middle:
+    years_experience: "3-5 лет"
+    key_phrases:
+      - "опытный специалист"
+      - "уверенные знания"
+      - "самостоятельное решение задач"
+  senior:
+    years_experience: "более 5 лет"
+    key_phrases:
+      - "глубокая экспертиза"
+      - "менторство"
+      - "архитектурные решения"
+
+# Salary expectations (in RUR)
+salary_expectations:
+  junior: "80 000 - 150 000"
+  middle: "150 000 - 250 000"
+  senior: "250 000 - 400 000"
+  negotiable: "Обсуждаемо"
+
+# Availability
+availability:
+  immediate: "Могу начать работу немедленно"
+  two_weeks: "Могу начать работу через 2 недели"
+  one_month: "Могу начать работу через 1 месяц"
+
+# Response templates by position type
+templates:
+  # Backend Python Developer
+  backend_python:
+    subject: "Отклик на вакансию Python разработчика"
+    greeting: "Добрый день!"
+    introduction: |
+      Меня заинтересовала ваша вакансия Python разработчика. У меня есть опыт разработки бэкенд-систем с использованием Python, Django/FastAPI и PostgreSQL.
+    
+    skills: |
+      Мои ключевые навыки:
+      • Python 3.8+ (Django, FastAPI, Flask)
+      • PostgreSQL, Redis, MongoDB
+      • Docker, Kubernetes
+      • Git, CI/CD
+      • REST API, WebSocket
+    
+    closing: |
+      Буду рад обсудить детали вакансии и ответить на ваши вопросы.
+      
+      С уважением,
+      {name}
+      {position}
+      {email}
+      {phone}
+      
+      {github}
+      {portfolio}
+
+  # DevOps Engineer
+  devops:
+    subject: "Отклик на вакансию DevOps инженера"
+    greeting: "Здравствуйте!"
+    introduction: |
+      Вижу вашу вакансию DevOps инженера и считаю, что мой опыт будет полезен вашей команде. Работаю с автоматизацией развертывания и управлением инфраструктурой.
+    
+    skills: |
+      Мои ключевые навыки:
+      • Docker, Kubernetes, Docker Compose
+      • CI/CD (GitLab CI, Jenkins, GitHub Actions)
+      • IaC (Terraform, Ansible)
+      • Мониторинг (Prometheus, Grafana, ELK)
+      • Облачные технологии (AWS, GCP, Yandex Cloud)
+    
+    closing: |
+      Готов обсудить, как мой опыт поможет вашей компании.
+      
+      С уважением,
+      {name}
+      {position}
+      {email}
+      {phone}
+      
+      {github}
+
+  # Data Scientist
+  data_scientist:
+    subject: "Отклик на вакансию Data Scientist"
+    greeting: "Добрый день!"
+    introduction: |
+      Заинтересовала ваша вакансия Data Scientist. Имею опыт анализа данных, построения ML-моделей и их внедрения в production.
+    
+    skills: |
+      Мои ключевые навыки:
+      • Python (Pandas, NumPy, Scikit-learn)
+      • ML/DL (TensorFlow, PyTorch, Keras)
+      • Статистический анализ и A/B тесты
+      • SQL, NoSQL базы данных
+      • Визуализация данных (Matplotlib, Plotly)
+    
+    closing: |
+      Буду рад рассказать подробнее о своих проектах и опыте.
+      
+      С уважением,
+      {name}
+      {position}
+      {email}
+      {phone}
+      
+      {github}
+
+  # Full Stack Developer
+  fullstack:
+    subject: "Отклик на вакансию Full Stack разработчика"
+    greeting: "Здравствуйте!"
+    introduction: |
+      Меня заинтересовала ваша вакансия Full Stack разработчика. Имею опыт как в бэкенд-, так и во фронтенд-разработке.
+    
+    skills: |
+      Мои ключевые навыки:
+      • Backend: Python, Django, FastAPI, Node.js
+      • Frontend: JavaScript, React, Vue.js, HTML/CSS
+      • Базы данных: PostgreSQL, MongoDB, Redis
+      • DevOps: Docker, Git, CI/CD
+      • APIs: REST, GraphQL, WebSocket
+    
+    closing: |
+      Готов к выполнению задач любой сложности от backend до frontend.
+      
+      С уважением,
+      {name}
+      {position}
+      {email}
+      {phone}
+      
+      {github}
+
+# General templates for quick responses
+quick_responses:
+  interested:
+    title: "Заинтересовал"
+    text: |
+      Здравствуйте! Ваша вакансия меня заинтересовала. Расскажите подробнее о проекте и команде.
+      
+      {name}
+
+  availability:
+    title: "Доступность"
+    text: |
+      Добрый день! Могу ли я уточнить сроки начала работы и формат сотрудничества?
+      
+      {name}
+
+# AI-powered responses configuration
+ai_responses:
+  enabled: false  # Enable AI-generated responses
+  model: "gpt-4"  # OpenAI model to use
+  max_tokens: 500
+  temperature: 0.7
+  system_prompt: |
+    Ты профессиональный рекрутер, помогающий составить отклик на вакансию. 
+    Напиши короткое, но профессиональное сопроводительное письмо. 
+    Используй деловой тон, выдели ключевые навыки кандидата. 
+    Письмо должно быть на русском языке.
+
+# Customization options
+customization:
+  variables:
+    - name: "{name}"
+      description: "Имя кандидата"
+    - name: "{position}"
+      description: "Должность"
+    - name: "{email}"
+      description: "Email"
+    - name: "{phone}"
+      description: "Телефон"
+    - name: "{github}"
+      description: "GitHub профиль"
+    - name: "{linkedin}"
+      description: "LinkedIn профиль"
+    - name: "{portfolio}"
+      description: "Портфолио"
+    - name: "{salary}"
+      description: "Ожидаемая зарплата"
+    - name: "{availability}"
+      description: "Доступность"
+  
+  attachments:
+    resume: true  # Прикреплять резюме
+    portfolio: false  # Прикреплять портфолио
+    github: false  # Прикреплять ссылку на GitHub
