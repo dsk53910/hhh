@@ -154,10 +154,14 @@ async def get_db_session():
         yield session
 
 
+import functools
+
+
 # Database utility functions
-async def with_db_session(func):
+def with_db_session(func):
     """Decorator to provide database session to async function"""
 
+    @functools.wraps(func)
     async def wrapper(*args, **kwargs):
         service = get_db_service()
         if not service:

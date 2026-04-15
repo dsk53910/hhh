@@ -151,3 +151,10 @@ Desktop.ini
 config/secrets.yaml
 logs/
 temp/
+README_DEPLOY.md
+README_FLY_FREETIER.md
+README_GITHUB_AUTH.md
+README_RENDER.md
+README_GITHUB_SSH.md
+fly.toml
+github_issue_multiple_criteria.md

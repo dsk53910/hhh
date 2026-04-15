@@ -103,23 +103,70 @@ class Settings(BaseSettings):
         Returns:
             Settings instance
         """
+        # Manually load .env file using python-dotenv so pydantic gets it
+        from dotenv import load_dotenv
+
+        load_dotenv()
+
         config_file = Path(config_path)
         if not config_file.exists():
             raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
+        import os
+        import re
+
         with open(config_file, "r", encoding="utf-8") as f:
-            config_data = yaml.safe_load(f)
+            content = f.read()
 
-        # Flatten nested configurations for environment variable overrides
-        flat_config = {}
-        for key, value in config_data.items():
-            if isinstance(value, dict):
-                for sub_key, sub_value in value.items():
-                    flat_config[f"{key}__{sub_key}"] = sub_value
-            else:
-                flat_config[key] = value
+        # Basic environment variable substitution for ${VAR_NAME} in YAML
+        # Fallback to empty string or numeric 0 if not found to avoid pydantic errors
+        def replacer(match):
+            val = os.environ.get(match.group(1))
+            if val is not None:
+                return val
+            # For known integers, return "0"
+            if match.group(1) == "ADMIN_ID":
+                return "0"
+            return ""
 
-        return cls(**flat_config)
+        content = re.sub(r"\$\{([^}^{]+)\}", replacer, content)
+
+        config_data = yaml.safe_load(content)
+
+        config_data = yaml.safe_load(content)
+
+        # Override with actual environment variables manually
+        db_url = os.environ.get("DATABASE_URL")
+        if db_url:
+            if "database" not in config_data:
+                config_data["database"] = {}
+            config_data["database"]["url"] = db_url.strip("\"'")
+
+        bot_token = os.environ.get("BOT_TOKEN")
+        if bot_token:
+            if "bot" not in config_data:
+                config_data["bot"] = {}
+            config_data["bot"]["token"] = bot_token.strip("\"'")
+
+        admin_id = os.environ.get("ADMIN_ID")
+        if admin_id:
+            if "bot" not in config_data:
+                config_data["bot"] = {}
+            config_data["bot"]["admin_id"] = int(admin_id.strip("\"'"))
+
+        hh_api_key = os.environ.get("HH_API_KEY")
+        if hh_api_key:
+            if "hh" not in config_data:
+                config_data["hh"] = {}
+            config_data["hh"]["api_key"] = hh_api_key.strip("\"'")
+
+        hh_resume_id = os.environ.get("HH_RESUME_ID")
+        if hh_resume_id:
+            if "hh" not in config_data:
+                config_data["hh"] = {}
+            config_data["hh"]["resume_id"] = hh_resume_id.strip("\"'")
+
+        return cls(**config_data)
 
     @validator("environment")
     def validate_environment(cls, v):

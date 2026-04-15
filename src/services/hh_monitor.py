@@ -113,9 +113,23 @@ class HHService:
                 return False
 
     @retry_async(
-        max_retries=3, delay=2.0, exceptions=(httpx.RequestError, httpx.HTTPStatusError)
+        max_retries=2, delay=1.0, exceptions=(httpx.RequestError, httpx.HTTPStatusError)
     )
-    async def get_vacancy_details(self, vacancy_id: str) -> Dict[str, Any]:
+    async def get_area_suggestions(self, text: str) -> list[Dict[str, str]]:
+        """
+        Gets auto-complete suggestions from HH.ru for areas (cities, countries).
+        """
+        async with httpx.AsyncClient(
+            base_url=self.base_url, headers=self.headers, timeout=5.0
+        ) as client:
+            response = await client.get("/suggests/areas", params={"text": text})
+            if response.status_code == 200:
+                data = response.json()
+                return [
+                    {"id": item.get("id"), "text": item.get("text")}
+                    for item in data.get("items", [])
+                ]
+            return []
         """
         Fetch full details of a specific vacancy by ID.
 
@@ -124,6 +138,46 @@ class HHService:
 
         Returns:
             JSON response containing the full vacancy details.
+        """
+        async with httpx.AsyncClient(
+            base_url=self.base_url, headers=self.headers, timeout=10.0
+        ) as client:
+            logger.info("fetching_vacancy_details", extra={"vacancy_id": vacancy_id})
+
+            response = await client.get(f"/vacancies/{vacancy_id}")
+
+            if response.status_code == 429:
+                logger.warning("hh_api_rate_limit_hit_sleeping")
+                await asyncio.sleep(5)
+                response.raise_for_status()
+
+            response.raise_for_status()
+            return response.json()
+
+    @retry_async(
+        max_retries=2, delay=1.0, exceptions=(httpx.RequestError, httpx.HTTPStatusError)
+    )
+    async def get_keyword_suggestions(self, text: str) -> list[str]:
+        """
+        Gets auto-complete suggestions from HH.ru for a given partial keyword.
+        """
+        async with httpx.AsyncClient(
+            base_url=self.base_url, headers=self.headers, timeout=5.0
+        ) as client:
+            response = await client.get(
+                "/suggests/vacancy_search_keyword", params={"text": text}
+            )
+            if response.status_code == 200:
+                data = response.json()
+                return [item.get("text") for item in data.get("items", [])]
+            return []
+
+    @retry_async(
+        max_retries=3, delay=2.0, exceptions=(httpx.RequestError, httpx.HTTPStatusError)
+    )
+    async def get_vacancy_details(self, vacancy_id: str) -> Dict[str, Any]:
+        """
+        Fetch full details of a specific vacancy by ID.
         """
         async with httpx.AsyncClient(
             base_url=self.base_url, headers=self.headers, timeout=10.0
