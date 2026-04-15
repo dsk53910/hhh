@@ -151,10 +151,32 @@ Desktop.ini
 config/secrets.yaml
 logs/
 temp/
+
+# Deploy files (safe to share - no secrets embedded)
+fly.toml
+Dockerfile
+
+# Runtime files
+bot.log
+bot.pid
+*.pid
+
+# Architecture/notes
+drilling_architecture/
+
+# Test files with HH API keys
+test_hh_*.py
+
+# Documentation with embedded secrets (review before pushing)
 README_DEPLOY.md
 README_FLY_FREETIER.md
 README_GITHUB_AUTH.md
 README_RENDER.md
 README_GITHUB_SSH.md
-fly.toml
+README_HH_AUTH.md
+README_START.md
+README_TELEGRAM.md
 github_issue_multiple_criteria.md
+
+# Scripts
+hhh.sh
