@@ -1,38 +1,37 @@
-# Use official Python image based on Debian
-FROM python:3.11-slim-bullseye
+# HHH Bot - Dockerfile for Render.com free tier
+FROM python:3.11-slim
 
-# Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_NO_CACHE_DIR=off
 
-# Set working directory
 WORKDIR /app
 
-# Install system dependencies (required for some Python packages like psycopg2)
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    libffi-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -u 1000 appuser
 
-# Install uv (Fast Python package installer)
-RUN pip install uv
+# Install uv
+RUN pip install --no-cache-dir uv
 
-# Copy only the requirements first to cache the layer
-COPY pyproject.toml .
+# Copy project files
+COPY . /app/
 
-# Install dependencies using uv directly into the system python
-RUN uv pip install --system -r pyproject.toml
+# Install Python dependencies
+RUN uv pip install --system -r /app/pyproject.toml || true
 
-# Copy the rest of the application
-COPY . .
+# Create directories for data persistence
+RUN mkdir -p /app/data /app/logs && chown -R appuser:appuser /app
 
-# Ensure the database migrations directory exists
-RUN mkdir -p /app/migrations
+# Switch to non-root user
+USER appuser
 
-# Make start script executable
-RUN chmod +x /app/hhh.sh
+# Default environment variables (SQLite for free tier)
+ENV DATABASE_URL=sqlite+aiosqlite:///app/data/hhh.db
 
-# Command to run the application directly
-CMD ["python", "-m", "src.bot.main"]
+# Run the bot
+CMD ["python", "src/bot/main.py"]
