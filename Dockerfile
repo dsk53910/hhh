@@ -3,7 +3,8 @@ FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=off
+    PIP_NO_CACHE_DIR=off \
+    PYTHONPATH=/app
 
 WORKDIR /app
 
@@ -31,8 +32,8 @@ RUN mkdir -p /app/data /app/logs && chown -R appuser:appuser /app
 USER appuser
 
 # Default environment variables (Supabase PostgreSQL)
-# DATABASE_URL should be set via Render environment variables
-# Format: postgresql+asyncpg://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT].supabase.co:5432/postgres
+  # DATABASE_URL should be set via Render environment variables
+  # Format: postgresql+asyncpg://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT].supabase.co:5432/postgres
 
 # Run the bot
-CMD ["python", "src/bot/main.py"]
+CMD ["python", "-m", "src.bot.main"]
