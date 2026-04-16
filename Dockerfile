@@ -34,5 +34,29 @@ USER appuser
 # DATABASE_URL is loaded from Render environment variables
 # For local testing: postgresql+asyncpg://postgres:[PASSWORD]@db.yabuqmchfkzvguyjwago.supabase.co:5432/postgres
 
-# Run the bot
-CMD ["python", "-m", "src.bot.main"]
+# Run the bot with health endpoint on port 8000
+CMD python -c "
+import os
+import asyncio
+from aiohttp import web
+from src.bot.main import main
+
+async def health(request):
+    return web.Response(text='OK')
+
+async def start():
+    app = web.Application()
+    app.router.add_get('/health', health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, '0.0.0.0', int(os.getenv('PORT', 8000)))
+    await site.start()
+    
+    # Run bot in background
+    bot_task = asyncio.create_task(main())
+    
+    # Keep running
+    await asyncio.Event().wait()
+
+asyncio.run(start())
+"
