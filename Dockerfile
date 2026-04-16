@@ -30,8 +30,9 @@ RUN mkdir -p /app/data /app/logs && chown -R appuser:appuser /app
 # Switch to non-root user
 USER appuser
 
-# Default environment variables (SQLite for free tier - no persistence)
-ENV DATABASE_URL=sqlite+aiosqlite:///hhh.db
+# Default environment variables (Supabase PostgreSQL)
+# DATABASE_URL should be set via Render environment variables
+# Format: postgresql+asyncpg://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT].supabase.co:5432/postgres
 
 # Run the bot
 CMD ["python", "src/bot/main.py"]
