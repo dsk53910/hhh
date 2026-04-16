@@ -31,9 +31,8 @@ RUN mkdir -p /app/data /app/logs && chown -R appuser:appuser /app
 # Switch to non-root user
 USER appuser
 
-# Default environment variables (Supabase PostgreSQL)
-  # DATABASE_URL should be set via Render environment variables
-  # Format: postgresql+asyncpg://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT].supabase.co:5432/postgres
+# DATABASE_URL is loaded from Render environment variables
+# For local testing: postgresql+asyncpg://postgres:[PASSWORD]@db.yabuqmchfkzvguyjwago.supabase.co:5432/postgres
 
 # Run the bot
 CMD ["python", "-m", "src.bot.main"]
